@@ -1,0 +1,15 @@
+.chef_signup{
+    color:white;
+    img{
+        width:100%;
+        height:100vh;
+    }
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    button{
+        margin-top: 1em;
+    }
+}

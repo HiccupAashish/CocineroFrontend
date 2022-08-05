@@ -1,0 +1,29 @@
+.search_form{
+    background-image:url("../images/picture1.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height:40em;
+    margin-top:0px;
+    width:100%;
+    color:white;
+    .login_signup_link{
+        display: flex;
+        float: right;
+        gap:5px;
+        margin-right: 2em;   
+    }
+    .search_block{
+        display: flex;
+        padding-top:25%;
+        padding-left: 20%;
+        gap:10px;
+        input{
+            height:3em;
+            width: 60%
+        }
+    }
+    Button{
+        border-radius: 15px;
+    }
+}

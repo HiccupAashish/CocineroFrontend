@@ -1,0 +1,30 @@
+
+.signup{
+    background-color: #343a40;
+    overflow: hidden;
+    color:white;
+    overflow: hidden;
+    img{
+        float:left;
+        width:50%;
+        height: 100vh;
+    }
+    .signup_form{
+        width:50%;
+        float: right;
+    }
+    form{
+       display: flex;
+       flex-direction: column;
+       gap:1em;
+       justify-content: space-between;
+       margin-right: 30%;
+       margin-top: 20%;
+       float: right;
+       button{
+        width:40%;
+        overflow: hidden;
+        align-self: center;
+       }
+    }
+}

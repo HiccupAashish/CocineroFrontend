@@ -1,0 +1,14 @@
+.chef_card{
+    display:flex;
+    min-height:13em;
+    width:15em;
+    justify-content: space-between;
+    margin: 2em 2em;
+    object-fit: cover;
+    transition: 1s;
+    
+   &:hover{
+    opacity: 0.8;
+   }
+
+}

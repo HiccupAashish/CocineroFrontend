@@ -1,0 +1,46 @@
+.image_container{
+    width:40%;
+    min-height:40vh;
+    border: 2px solid green;
+    border-radius: 30px;
+    margin: 1em 1em;
+    object-fit: cover;
+    display: flex;
+    
+
+    img{
+        display: flex;
+        flex-direction: row;
+        margin: 1em 1em 1em 1em;
+        width:25%;
+        height:20vh;
+        
+    }
+    p{
+        font-size: large;
+        font-weight: bold;
+        color:red;
+        position: absolute;
+        top: 40%;
+        left: 38%;
+        transform: translate(-50%, -50%);
+    }
+}
+.blur{
+    opacity: 0.4;
+   }
+.chef_edit{
+    display: flex;
+    flex-direction: column;
+    input{
+        width: 80%;
+    }
+    button{
+        width:40%;
+        align-self: center;
+    
+    }
+}
+input[type="file"] {
+    display: none;
+}

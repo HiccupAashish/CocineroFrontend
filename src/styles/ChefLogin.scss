@@ -1,0 +1,32 @@
+.Chef_login{
+    background-color: #343a40 ;
+    color:white;
+
+    img{
+        height:100vh;
+        width: 50%;
+        float:left;
+    }
+    form{
+    
+        padding-top: 10%;
+        align-self: center;
+        padding-left: 5%;
+        width:40%;
+        display: flex;
+        flex-direction: column;
+        button{
+            width:30%;
+            align-self: center;   
+        }
+        h2{
+            align-self: center;
+        }
+        input{
+            width:100%;
+            align-self: center;
+        }
+        
+    }
+
+}
