@@ -1,6 +1,16 @@
+// import { createBrowserHistory } from "history";
+// import { useNavigate } from "react-router";
+import { chefdata, storeBookings } from "../components/store/bookingSlice";
 import { createBrowserHistory } from "history";
+import { getChefs } from "../components/store/chefslice";
+import { addComments, addNewCommentToComments, getComments } from "../components/store/commetSlice";
+import { useDispatch } from "react-redux";
+import { async } from "@firebase/util";
+import { Navigate } from "react-router";
 
 const history=createBrowserHistory()
+// const dispatch=useDispatch()
+// const history=createBrowserHistory()
 
 export const CreateChef =  ({name,email,password}) => {
 	return (dispatch) => {
@@ -62,6 +72,28 @@ export const upadateChefData=(updatechefInfo)=>{
     }
 }
 
+export const fetchChefs = () => {
+	return async (dispatch) => {
+	  const fetchHandler = async () => {	
+		const res = await fetch(
+		  "http://localhost:3000/api/v2/chefs"
+		);
+		const data = await res.json();
+		return data;
+	  };
+	  try {
+		const chefData = await fetchHandler();
+
+		console.log( chefData.chef)
+		dispatch(getChefs(chefData.chef))	
+	  } catch (err) {
+		alert(err.message)
+		
+	  }
+	};
+  };
+  
+
 
 export const logInChef =  ({email,password}) => {
 	return (dispatch) => {
@@ -84,36 +116,149 @@ export const logInChef =  ({email,password}) => {
 				if (data.error) {
 					alert(data.error);
 				} else {
-                    console.log(data)
+					// dispatch(fetchChefBookings(data.chef.data.id))
+                    // dispatch(getChefs(data.chef.data.attributes))
 					localStorage.setItem("chef", JSON.stringify(data.chef.data.attributes));
 					localStorage.setItem("chef_token", data.jwt);
-					console.log(localStorage.chef)
+					
+					// console.log(localStorage.chef)
 					// dispatch(loginUser(data.user.data.attributes));
-					history.push("/")
+					history.push("/admin")
 					window.location.reload();	
 				}
 			});
 	};
 };
 
-export const createLike=(id)=>{
+
+export const deleteComment=(id)=>{
+	fetch(`http://localhost:3000/comments/${id}`,{
+		method:"DELETE",
+		headers:{
+			"Content-Type": "application/json",
+				Accept: "application/json",
+				Authorization: `Bearer ${localStorage.chef_token}`
+		},
+	})
+}
+
+export const addComment= (comment,chef_id)=>{
 	return(dispatch)=>{
-		fetch(`http://localhost:3000/likes`,{
-			method:"POST",
-			headers: {
-				"Content-Type": "application/json",
+	    fetch('http://localhost:3000/comments',{
+		method:"POST",
+		headers:{
+			"Content-Type": "application/json",
 				Accept: "application/json",
 				Authorization: `Bearer ${localStorage.token}`
-			},
-			body: JSON.stringify({
-				like: {
-				chef_id:id
+		},
+		body: JSON.stringify({
+			comment:{
+				comment: comment,
+				chef_id: chef_id
 			}
+		})
+	})
+		.then((res)=>res.json())
+		.then((data)=>{
+			console.log(JSON.stringify(data.comment))
+			dispatch(addNewCommentToComments(data.comment))
+		})
+    }
+}
+
+export const fetchComments = (id) => {
+	return async (dispatch) => {
+	  const fetchHandler = async () => {	
+		const res = await fetch(
+		  `http://localhost:3000/chef/${id}/comments`
+		);
+		const data = await res.json();
+		return data;
+	  };
+	  try {
+		const chefData = await fetchHandler();
+
+	
+		dispatch(getComments(chefData))	
+	  } catch (err) {
+		alert(err.message)
+		
+	  }
+	};
+  };
+  export const createBooking=(guest,name,price,date,address,userid,chefid)=>{
+	return async(dispatch)=>{
+		const postBooking= async()=>{
+			const res= await fetch('http://localhost:3000/bookings',{
+				method: "POST",
+				headers:{
+					"Content-Type": "application/json",
+                     Accept: "application/json",
+				},
+				body: JSON.stringify({
+					booking:{
+						guest_count:guest,
+						user_id:userid,
+						chef_id:chefid,
+						date:date,
+						address:address,
+						price:price
+
+					}
+				})
+			})
+			const data = await res.json();
+		    return data;
+		}
+		try{
+			const bookingdata=await postBooking()
+			console.log(bookingdata)
+		}
+		catch(err){
+			alert(err.message)
+		}
+		
+	}
+  }
+
+  export const fetchChefBookings=(id)=>{
+	return async (dispatch)=>{
+		const fetchHandler = async () => {	
+			const res = await fetch(
+			  `http://localhost:3000/bookings/${id}/chef`
+			);
+			const data = await res.json();
+			return data;
+		  };
+		  try {
+			const getbookings = await fetchHandler();
+			console.log(getbookings)
+			dispatch(storeBookings(getbookings))
+		
+		  } catch (err) {
+			alert(err.message)
+			
+		  }
+	}
+  }
+
+  export const acceptBooking=(id)=>{
+	return (dispatch)=>{
+		fetch(`http://localhost:3000/bookings/${id}`,{
+			method:"PATCH",
+			headers:{
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
+			body:JSON.stringify({
+				booking:{
+					status:"Accepted"
+				}
 			})
 		})
-			.then((res)=>res.json())
-			.then((data)=> {
-				console.log(data)
-			})
+		.then(res=>res.json())
+		.then((data)=>{
+			console.log(data)
+		})
 	}
-}
+  }

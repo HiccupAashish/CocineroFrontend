@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "../../styles/ChefLogin.scss"
 import Chef_pic from "../../images/cheflogin.jpg"
 import { useDispatch } from 'react-redux'
 import { logInChef } from '../../actions/chefAction'
+import { useNavigate } from 'react-router'
+import { CocineroContext } from '../Context/Context'
 
 export default function ChefLogin() {
     const [email, setEmail]=useState()
     const [password,setPassword]=useState()
+    const navigate=useNavigate()
     const dispatch=useDispatch()
+    const {setNavToggle}=useContext(CocineroContext)
 
     function handleEmailChange(e){
         e.preventDefault()
@@ -20,6 +24,8 @@ export default function ChefLogin() {
     function handlesubmit(e){
         e.preventDefault()
         dispatch(logInChef({email,password}))
+        navigate("/admin")
+        
         
     }
   return (

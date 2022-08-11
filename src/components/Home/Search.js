@@ -7,12 +7,9 @@ import { Link } from 'react-router-dom';
 export default function Search() {
   return (
     <div className='search_form'>
-      <Navbar/>
-        <div className='login_signup_link'>
-         <Link to="/user/login"> <Button variant="danger">Login</Button></Link>
-          <Link to="/user/signup"> <Button variant="danger">Signup</Button></Link>
-           {/* <Button variant="danger">Login as Chef</Button> */}
-        </div>
+      <div className="image">
+      
+  
        <div className='search_block'>
             <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -26,6 +23,7 @@ export default function Search() {
             </Dropdown>
             <input type='search'/>
             <Button variant="success">Find Chef</Button>
+        </div>
         </div>
     </div>
   )

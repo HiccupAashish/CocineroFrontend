@@ -11,13 +11,15 @@ import ChefContainer from './ChefContainer'
 
 export default function Home_page() {
  const location=useLocation();
+ const {currentUser} = useSelector((store) => store.user);
 
   return (
     <div> 
       <Search/>
       <ChefContainer/>
       <MapContainer/>
-      {/* <About/> */}
+    
+      {currentUser ? <div>Hi, your are logged in !!</div> : null}
     </div>
   )
 }

@@ -1,6 +1,7 @@
 .chef_card{
     display:flex;
-    min-height:13em;
+    flex-wrap: wrap;
+    height:13em;
     width:15em;
     justify-content: space-between;
     margin: 2em 2em;
@@ -10,5 +11,15 @@
    &:hover{
     opacity: 0.8;
    }
+   .line{
+    height:0.3rem;
+    background: #23d997;
+    width: 30px;
+    position: absolute;
+    // bottom: -80%;
+    margin-left: 57%;
+    margin-top: 15%;
+
+}
 
 }

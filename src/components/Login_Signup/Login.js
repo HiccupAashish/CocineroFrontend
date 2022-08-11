@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {SiFacebook} from "react-icons/si"
 import {FcGoogle}from "react-icons/fc"
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { logInUser } from '../../actions/userAction'
 import   '../../styles/Login.scss'
 import loginimage from "../../images/picture2.jpg"
+import { CocineroContext } from '../Context/Context'
 
 
 
 export default function Login() {
-    const user=useSelector((state)=>state.auth.user)
-    const location=useLocation()
+    
+    const navigate = useNavigate();
+    const {setNavToggle}=useContext(CocineroContext)
     const dispatch=useDispatch()
     const [email, setEmail]=useState()
     const [password,setPassword]=useState()
 
     const userInfo={email,password}
-    console.log(location)
+    // console.log(location)
     function handleEmailChange(e){
         e.preventDefault()
         setEmail(e.target.value)
@@ -29,11 +31,14 @@ export default function Login() {
     function handleSubmit(e){
         e.preventDefault()
         dispatch(logInUser(userInfo))
+        setNavToggle("User")
         e.target.reset();
         setEmail(' ')
         setPassword(" ")
+        navigate("/bookings")
+       
     }
-    
+
     function handleClear(e){
         e.preventDefault()
         localStorage.clear()
@@ -55,7 +60,6 @@ export default function Login() {
             </button>
             <button onClick={handleClear}>clear</button>
         </form>
-    {user && "hello"}
         </div>
         <h3> Or Login Using </h3>
         <div className='extra_info'>

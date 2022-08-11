@@ -2,19 +2,15 @@ import React, { useContext, useEffect } from 'react'
 import "../../styles/Map.scss"
 import { GoogleMap,Marker,useJsApiLoader } from '@react-google-maps/api'
 import { CocineroContext } from '../Context/Context';
+import { useSelector } from 'react-redux';
 
 export default function MapContainer() {
-  const {chefs}=useContext(CocineroContext)
+  // const {chefs}=useContext(CocineroContext)
+  const chefs=useSelector((state)=>state.chef.chefs)
   const containerStyle = {
     width: '95%',
     height: '400px'
   };
-//   useEffect(()=>{
-//     if(chefs)
-//     chefs.data.filter((chef)=>chef.id == 1).map((data)=>{
-//       console.log(data.attributes)
-//     })
-// },[chefs])
   const center = {
     lat: -33.9554986,
     lng: 151.13687916666666
@@ -43,12 +39,13 @@ export default function MapContainer() {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={8}
+        zoom={12}
         onLoad={onLoad}
         onUnmount={onUnmount}
         >
-            {chefs && chefs.data.map((chef)=>(
-         <Marker key={chef.id} position={{lat: parseFloat(chef.attributes.lat) ,lng: parseFloat(chef.attributes.lng) }}/>
+            {chefs && chefs.map((chef)=>(
+
+         <Marker key={chef.id} position={{lat: parseFloat(chef.lat) ,lng: parseFloat(chef.lng) }} title={chef.name}/>
 ))}
         
         </GoogleMap>
