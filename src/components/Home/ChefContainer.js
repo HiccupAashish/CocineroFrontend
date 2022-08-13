@@ -9,7 +9,7 @@ export default function ChefContainer() {
   // const {chefs,setChefs}=useContext(CocineroContext)
 
   const chefs = useSelector((state) => state.chef.chefs);
-
+ console.log(chefs)
   console.log(chefs);
 
   return (

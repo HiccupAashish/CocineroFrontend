@@ -10,13 +10,13 @@ import { fetchComments } from "../../actions/chefAction";
 
 export default function ChefContianer({ chef }) {
   const navigate = useNavigate();
-
+  const images=chef.images.split(",")
   const dispatch = useDispatch();
   function handlelike() {}
   return (
     <div
       className="chef_card"
-      style={{ backgroundImage: `url(${chef.img1})`, backgroundSize: "cover" }}
+      style={{ backgroundImage: `url(${images[0]})`, backgroundSize: "cover" ,backgroundRepeat:"no-repeat",color:"black"}}
       onClick={() => {
         dispatch(getAChef(chef.id));
         dispatch(fetchComments(chef.id))

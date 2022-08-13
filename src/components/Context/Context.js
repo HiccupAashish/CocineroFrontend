@@ -11,7 +11,7 @@ function CocineroProvider({children}){
     const [chefid,setChefId]=useState()
     const [chefPage,setChefPage]=useState()
     const [navtoggle,setNavToggle]=useState("User")
-    
+    const [background,setBackground]=useState()
     return(
         <CocineroContext.Provider
           value={{
@@ -28,7 +28,8 @@ function CocineroProvider({children}){
             chefid,setChefId,chefPage,
             setChefPage,
             navtoggle,
-            setNavToggle
+            setNavToggle,
+            background ,setBackground,
            
           }}>
             {children}

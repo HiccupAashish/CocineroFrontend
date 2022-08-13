@@ -1,41 +1,37 @@
 import { createBrowserHistory } from "history";
 import { loggedUser } from "../components/store/bookingSlice";
-import { setCurrentUser } from "../components/store/userSlice";
+import { logged, setCurrentUser, setUserInfo } from "../components/store/userSlice";
 
 const history = createBrowserHistory({ window });
 
 export const logInUser = (userInfo) => {
-  return (dispatch) => {
-    fetch("http://localhost:3000/api/v1/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          email: userInfo.email,
-          password: userInfo.password,
-        },
-      }),
-    })
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((data) => {
-        if (data.error) {
-          alert(data.error);
-        } else {
-          dispatch(setCurrentUser(data.user));
-          localStorage.setItem(
-            "user",
-            JSON.stringify(data.user)
-          );
-          localStorage.setItem("token", data.jwt);
-       
-          
-        }
-      });
+  return async (dispatch) => {
+   const fetchloginchef=async()=>{
+     const res= await fetch("http://localhost:3000/api/v1/login", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                },
+                body: JSON.stringify({
+                  user: {
+                    email: userInfo.email,
+                    password: userInfo.password,
+                  },
+                })
+              })
+      const data=await res.json();
+      return data;
+            }
+    try{
+      const getloggedinfo=await fetchloginchef();
+      localStorage.setItem( "user", JSON.stringify(getloggedinfo.user.data.attributes))
+      localStorage.setItem("token", getloggedinfo.jwt); 
+
+    }
+    catch(err){
+      alert(err.message)
+    }
   };
 };
 
@@ -74,21 +70,25 @@ export const createUser = (userInfo) => {
   };
 };
 
-// export const refreshDashboard = (userInfo) => {
-// 	return (dispatch) => {
-// 		const { id } = userInfo;
+export const fetchUserInfo=(id)=>{
+  return (dispatch) => {
+    fetch(`http://localhost:3000/api/v1/users/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.chef_token}`
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          const errorMsg = data.error;
+          alert(errorMsg);
+        } else {
+          dispatch(setUserInfo(data.user.data.attributes))
+        }
+      });
+  };
+};
 
-// 		// fetch(`http://localhost:3000/users/${id}`)
-// 		fetch(`https://my-travelogue.herokuapp.com/users/${id}`)
-// 			.then((resp) => {
-// 				return resp.json();
-// 			})
-// 			.then((data) => {
-// 				if (data.error) {
-// 					alert(data.error);
-// 				} else {
-// 					dispatch({ type: "REFRESH_DASHBOARD", data });
-// 				}
-// 			});
-// 	};
-// };

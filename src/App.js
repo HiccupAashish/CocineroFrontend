@@ -18,38 +18,47 @@ import ChefDescription from "./components/Chef/ChefDescription";
 import { CocineroContext } from "./components/Context/Context";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChefBookings, fetchChefs } from "./actions/chefAction";
-import { setCurrentUser } from "./components/store/userSlice";
+import { logged, setCurrentUser } from "./components/store/userSlice";
 import Navbar from "./components/Navbar/Navbar";
 import UserPage from "./components/Pages/UsersPage";
 import Modal from "./components/Context/Modal";
 import ChefPage from "./components/Pages/ChefDashboard/ChefDashboard";
 import { getChefDetails, getChefs } from "./components/store/chefslice";
+import BookingDetails from "./components/Pages/ChefDashboard/BookingDetails";
 
 function App() {
   // const {setNavToogle}=useContext(CocineroContext)
   const location=useLocation()
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { openModal,setOpenModal } =
+  const { openModal,setOpenModal,background } =
     useContext(CocineroContext);
   const  currentUser = useSelector((store) => store.user.currentUser);
   const currentChef=useSelector((state)=>state.chef.chefDetails)
-
+  const islogged=useSelector((state)=>state.user.islogged)
   useEffect(() => {
     dispatch(fetchChefs());
   }, []);
   
-  useEffect(()=>{
-    if(!localStorage.chef)return
-    const chef=JSON.parse(localStorage.chef)
-    dispatch(fetchChefBookings(chef.id))
-    dispatch(getChefDetails(chef))
-    // setNavToogle("Chef")
+  // useEffect(()=>{
+  //   if(localStorage.chef){
+  //   const chef=JSON.parse(localStorage.chef)
+  //   dispatch(fetchChefBookings(chef.id))
+  //   dispatch(getChefDetails(chef))
+  //   dispatch(logged())
+  //   }else if(localStorage.user){
+  //     dispatch(setCurrentUser(JSON.parse(localStorage.user)));
+  //     dispatch(logged())
+  //   }else{
+  //     return;
+  //   }
     
-  },[])
+  // },[])
+
+
 
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor:`${background}`}}>
       {openModal && <Modal  openModal={openModal} setOpenModal={setOpenModal}/>}
       <Navbar />
      
@@ -61,8 +70,9 @@ function App() {
         <Route path="/chef/login" element={<ChefLogin />} />
         <Route path="/chef/edit" element={<ChefData />} />
         <Route path="/chef/:id" element={<ChefDescription />}></Route>
-        <Route path="/bookings" element={currentUser? <UserPage/>:<Login/>} />
-        <Route path="/admin" element={currentChef ? <ChefPage/> : <ChefLogin/>}/>
+        <Route path="/user/admin" element={<UserPage/>} />
+        <Route path="/chef/admin" element={ <ChefPage/> }/>
+        <Route path="/chef/admin/info" element={<BookingDetails/>}/>
       </Routes>
     </div>
   );

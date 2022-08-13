@@ -19,7 +19,7 @@ export default function Login() {
     const [password,setPassword]=useState()
 
     const userInfo={email,password}
-    // console.log(location)
+    
     function handleEmailChange(e){
         e.preventDefault()
         setEmail(e.target.value)
@@ -35,8 +35,8 @@ export default function Login() {
         e.target.reset();
         setEmail(' ')
         setPassword(" ")
-        navigate("/bookings")
-       
+        navigate("/user/admin")
+  
     }
 
     function handleClear(e){
@@ -44,12 +44,14 @@ export default function Login() {
         localStorage.clear()
     }
 
+    
   return (
     <div className='login'>
-        <div className="login_box">
+        
         <img src={loginimage}/>
+
         <form onSubmit={handleSubmit}>
-        <h2> Login </h2>
+            <h2> Login </h2>
             <label> Email:</label>
             <input  onChange={handleEmailChange} type="email" name="email"  />
             <label> Password:</label>
@@ -60,7 +62,7 @@ export default function Login() {
             </button>
             <button onClick={handleClear}>clear</button>
         </form>
-        </div>
+        
         <h3> Or Login Using </h3>
         <div className='extra_info'>
             <SiFacebook/>

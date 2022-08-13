@@ -2,11 +2,11 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 export default function AcceptedBookings() {
-    const requested=useSelector((state)=>state.booking.bookings)
+    const acceptedbookings=useSelector((state)=>state.booking.acceptedbookings)
   return (
     <div>
         
-    {requested &&requested.map((reqbooking)=>(
+    {acceptedbookings &&acceptedbookings.map((reqbooking)=>(
     //   <h2> {reqbooking.status}</h2>
        <>
         {reqbooking.status=="Accepted"&&

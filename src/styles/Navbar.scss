@@ -1,48 +1,56 @@
-.header{
-    display:grid;
-    grid-template-columns: 0fr 2fr 1fr;
-  
-    height:5em;
-    
-    // z-index: 1;
-    width: 100%;
-    transition: 0.2s ;
-    
-    .login_signup_link{
-      display: flex;
-        // align-items: center;
-        // margin-top: 20px;
-        gap:1.5em;
-        // margin-right: 1em;   
-    }
-    
+.header {
+  display: grid;
+  grid-template-columns: 0fr 2fr 0.5fr;
+  padding-top: 10px;
+  height: 5em;
+
+  width: 100%;
+  transition: 0.2s;
+
+  .login_signup_link {
+    display: flex;
+
+    gap: 1.5em;
+  }
 }
 
-.header-bg{
-    background-color:#2a9d8f;
+.header-bg {
+  background-color: #2a9d8f;
 }
-.header-rel{
-    position: relative;    
+.header-rel {
+  position: relative;
 }
-.header-fix{
-    position: fixed;
+.header-fix {
+  position: fixed;
 }
-span{
-    display: flex;
-    p{
-        font-weight: bold;
-        font-size: 1.2em;
-        padding-top: 18px;
-        text-decoration: none;
-        align-self: center;
-    }
+span {
+  display: flex;
+  p {
+    font-weight: bold;
+    font-size: 1.2em;
+    padding-top: 18px;
+    text-decoration: none;
+    align-self: center;
+  }
 }
-.nav_button{
-    background-color: transparent;
-    border: 1px solid #23d997;
-    border-radius: 20px;
-    height:3em;
-    width:5em;
-    
+.nav_button {
+  background-color: transparent;
+  border: 1px solid #23d997;
+  border-radius: 20px;
+  height: 3em;
+  width: 5em;
 }
-// grid-template-columns: 0fr 2fr 1fr;
+.after-logged-btn {
+  border: 2px solid #23d997;
+  color: white;
+  background: transparent;
+  transform: 0.5s;
+  font-size: 1.2em;
+  border-radius: 10%;
+  height: 3em;
+  min-width: 5em;
+  &:hover {
+    background-color: #23d997;
+    color: black;
+  }
+}

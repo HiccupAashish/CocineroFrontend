@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState={
     chefs:null,
+    
     chefDetails:null,
     eachChef: [],
     status: 'idle'
@@ -13,11 +14,14 @@ const chefSlice=createSlice({
     initialState,
     reducers:{
        getChefs:(state,action)=>{
+        // const images=(action.payload).images.split(",")
         console.log(action.payload)
-        state.chefs=action.payload
+        state.chefs=(action.payload).map(payload=>payload.attributes)
+        // console.log(images)
        },
        getAChef: (state, action) => {
         const getChef = state.chefs.find((chef) => chef.id === action.payload)
+        console.log(getChef)
         state.eachChef = [getChef]
        },
        getChefDetails:(state,action)=>{

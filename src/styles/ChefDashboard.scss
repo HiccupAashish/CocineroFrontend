@@ -1,6 +1,11 @@
 .chef-dashboard{
     display: flex;
     height: 100vh;
+    img{
+        margin-left:30% ;
+        width:50%;
+        height:80%;
+    }
 
 }
 .chef-class-box{
@@ -9,18 +14,23 @@
     height:100%;
 }
 .chef-navbar{
-    background-color: red;
-    width:30%;
+    background-color: #6c757d;
+  
+    width:20%;
     height:100%;
     float: left;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    // justify-content: space-between;
     button{
+        height: 3em;
+        color:white;
         background: transparent;
         border: none;
+        transition: 0.3s ease-out;
         &:hover{
-            background-color: blue;
+            background-color: #23d997;
+            color:black;
         }
 
     }

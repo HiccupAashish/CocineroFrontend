@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createUser } from '../../actions/userAction'
 import signup_pic from "../../images/walle.jpg"
@@ -35,6 +35,21 @@ export default function Signup() {
     }
     
     const userInfo= {username,password,email}
+     
+    function handleCallbackResponse(response){
+        console.log("Encoded JWT ID token: "+response.credential)
+    }
+
+    useEffect(()=>{
+      google.accounts.id.initialize({
+        client_id: "948410654431-c9krko7caifm9u6a84ea4i9dpp2nl05u.apps.googleusercontent.com",
+        callback: handleCallbackResponse
+      })
+      google.accounts.id.renderButton(
+        document.getElementById("signingoogle"),
+        {theme: 'outline',size: 'large'}
+      )
+    },[])
 
 
   return (
@@ -74,8 +89,11 @@ export default function Signup() {
             Create Account
             </button>
         </form>
-      
+       <div className="signingoogle">
+
+       </div>
         </div>
+
     </div>
   )
 }

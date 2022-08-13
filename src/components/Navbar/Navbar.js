@@ -5,18 +5,20 @@ import Button from 'react-bootstrap/Button';
 import {HiOutlineMenu} from "react-icons/hi"
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../store/userSlice';
+import { logged, logout } from '../store/userSlice';
 import { CocineroContext } from '../Context/Context';
 
 
 export default function Navbar() {
 
   const  currentUser  = useSelector((store) => store.user.currentUser);
+  const curretChef=useSelector((state)=>state.chef.cheDetails)
   const location=useLocation()
   console.log(location.pathname)
   const {navtoggle}=useContext(CocineroContext)
   const [scroll,setScroll]=useState(false)
   const dispatch=useDispatch()
+  const islogged=useSelector((state)=>state.user.islogged)
 
   const changeColor=()=>{
     if(window.scrollY>=50){
@@ -29,7 +31,7 @@ export default function Navbar() {
   window.addEventListener('scroll',changeColor)
 
   useEffect(()=>{
-  const   header=document.querySelector(".header")
+  const  header=document.querySelector(".header")
     if (scroll){
       header.classList.add('header-bg')
     }else{
@@ -40,6 +42,7 @@ export default function Navbar() {
   function handleLogout(){
     dispatch(logout())
     localStorage.clear()
+    dispatch(logged(false))
   }
 
   return (
@@ -48,6 +51,7 @@ export default function Navbar() {
          <button className="btn btn-primary" style={{background:"transparent",border:"none",color:"black"}} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
            <HiOutlineMenu/> 
          </button>
+
          <Link to="/">
           <span>
          <img src={logo} style={{height:"60px",width:"60px"}}/>
@@ -66,20 +70,15 @@ export default function Navbar() {
             </div> 
         </div>  
         <nav className='login_signup_link'>
-           {navtoggle==="User"?<> {currentUser?
-                    <Link to="/"> <button onClick={handleLogout}>Logout</button></Link> :
+           {islogged?
+                  <Link to="/"> <button className='after-logged-btn' onClick={handleLogout}>Logout</button></Link> :
                   <>
                     <Link to="/user/login"> <button className='nav_button'>Login</button></Link>
                     <Link to="/user/signup"> <button className='nav_button'>Signup</button></Link>
                   </>
                   }
-               {currentUser &&  <Link to ="/bookings"><button>Bookings</button></Link>}
-            </>: 
-            <>
-              {/* <Link to="/admin"> <button>Dashboard</button>/></Link>
-              <button> Logout</button> */}
-            </> }
-            
+               {currentUser &&  <Link to ="/user/admin"><button className='after-logged-btn'>Dashboard</button></Link>}  
+               {curretChef &&  <Link to ="/chef/admin"><button className='after-logged-btn'>Dashboard</button></Link>}
         </nav>
     </div>
   )

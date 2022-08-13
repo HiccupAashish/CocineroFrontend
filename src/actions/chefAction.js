@@ -9,8 +9,7 @@ import { async } from "@firebase/util";
 import { Navigate } from "react-router";
 
 const history=createBrowserHistory()
-// const dispatch=useDispatch()
-// const history=createBrowserHistory()
+
 
 export const CreateChef =  ({name,email,password}) => {
 	return (dispatch) => {
@@ -43,7 +42,7 @@ export const CreateChef =  ({name,email,password}) => {
 	};
 };
 
-export const upadateChefData=(updatechefInfo)=>{
+export const upadateChefData=(name,address,bio1,bio2,images,coordinates,profile)=>{
 	return(dispatch)=>{
 		fetch(`http://localhost:3000/api/v2/chefs/${JSON.parse(localStorage.chef).id}`,{
 			method:"PUT",
@@ -55,15 +54,14 @@ export const upadateChefData=(updatechefInfo)=>{
 			},
 			body: JSON.stringify({ 
 				chef:{
-					name:updatechefInfo.name,
-					address: updatechefInfo.address,
-					bio1: updatechefInfo.bio,
-					bio2: updatechefInfo.foodbio,
-					img1: updatechefInfo.imageUrl[0],
-					img2: updatechefInfo.imageUrl[1],
-					img3: updatechefInfo.imageUrl[2],
-					lat: updatechefInfo.coordinates.lat,
-					lng: updatechefInfo.coordinates.lng,
+					name:name,
+					address:address,
+					bio1: bio1,
+					bio2: bio2,
+					images:images,
+					lat: coordinates.lat,
+					lng: coordinates.lng,
+					avatar:profile
 			    } 	})  })
 			.then((res)=>res.json())
 			.then((data)=>{
@@ -84,8 +82,8 @@ export const fetchChefs = () => {
 	  try {
 		const chefData = await fetchHandler();
 
-		console.log( chefData.chef)
-		dispatch(getChefs(chefData.chef))	
+		console.log( chefData.chef.data)
+		dispatch(getChefs(chefData.chef.data))	
 	  } catch (err) {
 		alert(err.message)
 		
@@ -116,15 +114,10 @@ export const logInChef =  ({email,password}) => {
 				if (data.error) {
 					alert(data.error);
 				} else {
-					// dispatch(fetchChefBookings(data.chef.data.id))
-                    // dispatch(getChefs(data.chef.data.attributes))
 					localStorage.setItem("chef", JSON.stringify(data.chef.data.attributes));
 					localStorage.setItem("chef_token", data.jwt);
-					
-					// console.log(localStorage.chef)
-					// dispatch(loginUser(data.user.data.attributes));
-					history.push("/admin")
-					window.location.reload();	
+					// history.push("/chef/admin")
+					// window.location.reload();	
 				}
 			});
 	};
@@ -194,6 +187,8 @@ export const fetchComments = (id) => {
 				headers:{
 					"Content-Type": "application/json",
                      Accept: "application/json",
+				    Authorization: `Bearer ${localStorage.token}`
+
 				},
 				body: JSON.stringify({
 					booking:{
@@ -226,14 +221,22 @@ export const fetchComments = (id) => {
 		const fetchHandler = async () => {	
 			const res = await fetch(
 			  `http://localhost:3000/bookings/${id}/chef`
-			);
+			,{
+				method:"GET",
+				headers:{
+					"Content-Type": "application/json",
+					 Accept: "application/json",
+				     Authorization: `Bearer ${localStorage.chef_token}`
+                     
+				}
+			});
 			const data = await res.json();
 			return data;
 		  };
 		  try {
 			const getbookings = await fetchHandler();
 			console.log(getbookings)
-			dispatch(storeBookings(getbookings))
+			dispatch(storeBookings(getbookings.bookings.data))
 		
 		  } catch (err) {
 			alert(err.message)
@@ -249,6 +252,7 @@ export const fetchComments = (id) => {
 			headers:{
 				"Content-Type": "application/json",
 				Accept: "application/json",
+				Authorization: `Bearer ${localStorage.chef_token}`
 			},
 			body:JSON.stringify({
 				booking:{

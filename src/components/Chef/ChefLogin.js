@@ -24,7 +24,7 @@ export default function ChefLogin() {
     function handlesubmit(e){
         e.preventDefault()
         dispatch(logInChef({email,password}))
-        navigate("/admin")
+        navigate("/chef/admin")
         
         
     }
